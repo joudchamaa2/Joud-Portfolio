@@ -1,0 +1,175 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/jetbrains-mono";
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Raw values live on :root so they can be reused outside Tailwind; @theme
+   maps them to utilities (bg-surface, text-fg-muted, border-line, ...).
+   --------------------------------------------------------------------------- */
+:root {
+  --ink-950: #0d0d0e;
+  --ink-900: #121213;
+  --ink-850: #17171a;
+  --ink-800: #1d1d20;
+  --ink-700: #29292d;
+  --ink-600: #36363b;
+
+  --paper-50: #f3efe7;
+  --paper-300: #b5b1a8;
+  --paper-500: #8d8a83;
+
+  --gold-400: #d4b673;
+  --gold-500: #c9a961;
+  --gold-600: #a88a48;
+
+  --red-500: #e5534b;
+  --green-500: #57b884;
+
+  --space-section: clamp(4.5rem, 9vw, 8rem);
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --content-max: 76rem;
+
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+  --duration-slow: 600ms;
+}
+
+@theme {
+  --color-bg: var(--ink-950);
+  --color-surface: var(--ink-900);
+  --color-surface-2: var(--ink-850);
+  --color-surface-3: var(--ink-800);
+  --color-line: var(--ink-700);
+  --color-line-strong: var(--ink-600);
+
+  --color-fg: var(--paper-50);
+  --color-fg-muted: var(--paper-300);
+  --color-fg-subtle: var(--paper-500);
+
+  --color-gold: var(--gold-500);
+  --color-gold-bright: var(--gold-400);
+  --color-gold-deep: var(--gold-600);
+
+  --color-danger: var(--red-500);
+  --color-success: var(--green-500);
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces Variable", ui-serif, Georgia, serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", monospace;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --animate-rise: rise var(--duration-slow) var(--ease-soft) both;
+  --animate-fade: fade var(--duration-base) ease-out both;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+}
+
+@layer base {
+  html {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+  body {
+    min-height: 100dvh;
+    background: var(--color-bg);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--gold-500) 35%, transparent);
+    color: var(--paper-50);
+  }
+  :focus-visible {
+    outline: 2px solid var(--gold-500);
+    outline-offset: 3px;
+    border-radius: var(--radius-xs);
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .container-page {
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .section {
+    padding-block: var(--space-section);
+  }
+  /* Small monospaced label used for section indices and metadata. */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--paper-500);
+  }
+  .display {
+    font-family: var(--font-display);
+    font-variation-settings: "opsz" 96, "SOFT" 30;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+  }
+  .hairline {
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-600), var(--ink-700) 30%, var(--ink-700));
+  }
+  /* Faint grid used behind empty image slots. */
+  .grid-pattern {
+    background-color: var(--ink-850);
+    background-image:
+      linear-gradient(var(--ink-700) 1px, transparent 1px),
+      linear-gradient(90deg, var(--ink-700) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-position: -1px -1px;
+  }
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size var(--duration-base) var(--ease-soft), color var(--duration-fast);
+  }
+  .link-underline:hover {
+    background-size: 100% 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

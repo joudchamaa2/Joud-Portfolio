@@ -1,0 +1,63 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "react",
+    "typescript",
+    "oxc",
+    "jsx-a11y",
+    "vitest"
+  ],
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "warn",
+    "react/only-export-components": [
+      "warn",
+      {
+        "allowConstantExport": true
+      }
+    ],
+    "react/no-danger": "error",
+    "react/incompatible-library": "off",
+    "no-eval": "error",
+    "typescript/no-explicit-any": "error",
+    "jsx-a11y/prefer-tag-over-role": "off",
+    "jsx-a11y/label-has-associated-control": [
+      "warn",
+      {
+        "controlComponents": [
+          "Switch"
+        ],
+        "depth": 3
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/components/ui/**",
+        "src/auth/AuthProvider.tsx",
+        "src/components/site/SiteData.tsx",
+        "src/components/admin/shared.tsx",
+        "src/router.tsx",
+        "src/**/*.test.tsx",
+        "tests/**"
+      ],
+      "rules": {
+        "react/only-export-components": "off"
+      }
+    },
+    {
+      "files": [
+        "tests/**",
+        "src/**/*.test.{ts,tsx}"
+      ],
+      "rules": {
+        "vitest/require-mock-type-parameters": "off"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "src/lib/database.types.ts",
+    "dist"
+  ]
+}
